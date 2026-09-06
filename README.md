@@ -27,9 +27,85 @@ To implement HASH ALGORITHM
 
 
 ## Program:
+```
+#include <stdio.h>
+#include <string.h>
 
+#define KEY 7
+
+// XOR Encryption
+void encrypt(char text[], char encrypted[]) {
+    int i;
+
+    for (i = 0; text[i] != '\0'; i++) {
+        encrypted[i] = text[i] ^ KEY;
+    }
+
+    encrypted[i] = '\0';
+}
+
+// XOR Decryption
+void decrypt(char encrypted[], char decrypted[]) {
+    int i;
+
+    for (i = 0; encrypted[i] != '\0'; i++) {
+        decrypted[i] = encrypted[i] ^ KEY;
+    }
+
+    decrypted[i] = '\0';
+}
+
+// Simple hash function
+unsigned long hashFunction(char text[]) {
+    unsigned long hash = 5381;
+    int i;
+
+    for (i = 0; text[i] != '\0'; i++) {
+        hash = ((hash << 5) + hash) + text[i];
+    }
+
+    return hash;
+}
+
+int main() {
+    char message[100];
+    char encrypted[100];
+    char decrypted[100];
+    unsigned long hash;
+
+    printf("Enter the message: ");
+    fgets(message, sizeof(message), stdin);
+
+    // Remove newline
+    message[strcspn(message, "\n")] = '\0';
+
+    // Generate hash
+    hash = hashFunction(message);
+
+    // Encryption
+    encrypt(message, encrypted);
+
+    // Decryption
+    decrypt(encrypted, decrypted);
+
+    printf("Original Message : %s\n", message);
+
+    printf("Hash Value       : %lu\n", hash);
+
+    printf("Encrypted Message: ");
+    for (int i = 0; encrypted[i] != '\0'; i++) {
+        printf("%02X ", (unsigned char)encrypted[i]);
+    }
+
+    printf("\nDecrypted Message: %s\n", decrypted);
+
+    return 0;
+}
+```
 
 ## Output:
+
+<img width="915" height="457" alt="image" src="https://github.com/user-attachments/assets/a068ac2a-ac72-45a2-b130-05ab804ea515" />
 
 ## Result:
 The program is executed successfully.
